@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flop Hand Reference — Heads Up</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --surface: #161410;
+    --border: #2a2620;
+    --border-bright: #3d3830;
+    --text: #e8e0d0;
+    --muted: #7a7060;
+    --accent-gold: #c9a84c;
+    --accent-red: #c94c4c;
+    --accent-green: #4caa6e;
+    --accent-blue: #4c7cc9;
+    --accent-orange: #c97a4c;
+    --rank-monster: #c9a84c;
+    --rank-strong: #4caa6e;
+    --rank-medium: #4c7cc9;
+    --rank-weak: #c97a4c;
+    --rank-draw: #9a6cc9;
+    --rank-trash: #c94c4c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .noise {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  header {
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--border-bright);
+    padding-bottom: 40px;
+  }
+
+  .suit-row {
+    font-size: 22px;
+    letter-spacing: 6px;
+    margin-bottom: 16px;
+    color: var(--muted);
+  }
+  .suit-row span.r { color: var(--accent-red); }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  h1 em {
+    color: var(--accent-gold);
+    font-style: normal;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  .tier-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .divider {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  thead tr {
+    border-bottom: 1px solid var(--border-bright);
+  }
+
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 400;
+  }
+  th:last-child, th:nth-child(3) { text-align: right; }
+
+  td {
+    padding: 11px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tr:hover td {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .rank-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .hand-name {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 14px;
+  }
+
+  .hand-example {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .hand-example .r { color: #c97070; }
+
+  .pct-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .pct-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .bar-track {
+    width: 80px;
+    height: 3px;
+    background: var(--border-bright);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .notes-col {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 240px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+    border: 1px solid;
+    opacity: 0.7;
+  }
+
+  .footnote-section {
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footnote-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--accent-gold);
+  }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .note-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+  }
+
+  .note-card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 8px;
+  }
+
+  .note-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Tier colors */
+  .t-monster { color: var(--rank-monster); border-color: var(--rank-monster); }
+  .t-strong  { color: var(--rank-strong);  border-color: var(--rank-strong); }
+  .t-medium  { color: var(--rank-medium);  border-color: var(--rank-medium); }
+  .t-weak    { color: var(--rank-weak);    border-color: var(--rank-weak); }
+  .t-draw    { color: var(--rank-draw);    border-color: var(--rank-draw); }
+  .t-trash   { color: var(--rank-trash);   border-color: var(--rank-trash); }
+
+  .bar-monster { background: var(--rank-monster); }
+  .bar-strong  { background: var(--rank-strong); }
+  .bar-medium  { background: var(--rank-medium); }
+  .bar-weak    { background: var(--rank-weak); }
+  .bar-draw    { background: var(--rank-draw); }
+  .bar-trash   { background: var(--rank-trash); }
+
+  .pct-monster { color: var(--rank-monster); }
+  .pct-strong  { color: var(--rank-strong); }
+  .pct-medium  { color: var(--rank-medium); }
+  .pct-weak    { color: var(--rank-weak); }
+  .pct-draw    { color: var(--rank-draw); }
+  .pct-trash   { color: var(--rank-trash); }
+
+  @media (max-width: 640px) {
+    .bar-track { width: 48px; }
+    .notes-col { display: none; }
+    th.notes-th { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="container">
+
+  <header>
+    <div class="suit-row">♠ <span class="r">♥</span> ♣ <span class="r">♦</span></div>
+    <h1>All <em>Flop Cases</em><br>Heads Up</h1>
+    <div class="subtitle">Complete hand taxonomy · equity % · frequency % · ranked</div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-monster)"></div> Monster</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-strong)"></div> Strong</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-medium)"></div> Medium</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-weak)"></div> Weak</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-draw)"></div> Drawing</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rank-trash)"></div> Trash / Fold Pressure</div>
+    <div style="margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)">Equity vs random HU hand · Frequency = % of all flop spots you see this</div>
+  </div>
+
+  <!-- TIER 1: MONSTER -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-monster">Tier 1</div>
+      <div class="section-title">Monster Made Hands</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">1</span></td>
+          <td>
+            <div class="hand-name">Royal Flush</div>
+            <div class="hand-example"><span class="r">A♥ K♥</span> on <span class="r">Q♥ J♥</span> T♥</div>
+          </td>
+          <td class="notes-col">Literally unbeatable. Just figure out how to extract maximum value before villain folds.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~100%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:100%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.0002%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:1%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">2</span></td>
+          <td>
+            <div class="hand-name">Straight Flush</div>
+            <div class="hand-example">8♠ 9♠ on 6♠ 7♠ 5♠</div>
+          </td>
+          <td class="notes-col">Effectively unbeatable on flop. Slowplay or build pot fast depending on board.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~100%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:99%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.02%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:1%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">3</span></td>
+          <td>
+            <div class="hand-name">Four of a Kind</div>
+            <div class="hand-example">7♠7<span class="r">♥</span> on 7<span class="r">♦</span>7♣ K</div>
+          </td>
+          <td class="notes-col">Unbeatable except royal/straight flush. Opponent almost never has one. Max extract.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~100%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:98%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.03%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:1%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">4</span></td>
+          <td>
+            <div class="hand-name">Full House — Top Set + Board Pair</div>
+            <div class="hand-example">KK on K K 7 / AA on A A 3</div>
+          </td>
+          <td class="notes-col">Rare and dominant. Hard for villain to put you on.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~99%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:99%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.09%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:1%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">5</span></td>
+          <td>
+            <div class="hand-name">Full House — Set + Pair on Board</div>
+            <div class="hand-example">88 on 8 K K</div>
+          </td>
+          <td class="notes-col">Beware villain has KX. Otherwise crushing. Thin value available.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~95%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:95%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.3%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:2%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">6</span></td>
+          <td>
+            <div class="hand-name">Flopped Flush (Nut)</div>
+            <div class="hand-example">A<span class="r">♥</span>K<span class="r">♥</span> on <span class="r">Q♥ 7♥ 3♥</span></div>
+          </td>
+          <td class="notes-col">You have the nuts. Bet for value. On monotone board, villain can't have better flush.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~97%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:97%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.2%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:1%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">7</span></td>
+          <td>
+            <div class="hand-name">Flopped Flush (Non-Nut)</div>
+            <div class="hand-example">8<span class="r">♥</span>6<span class="r">♥</span> on <span class="r">Q♥ 7♥ 3♥</span></div>
+          </td>
+          <td class="notes-col">Strong but villain holding one higher heart already beats you on paired board. Play carefully.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~85%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:85%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">0.6%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:2%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">8</span></td>
+          <td>
+            <div class="hand-name">Top Set</div>
+            <div class="hand-example">AA on A 8 3</div>
+          </td>
+          <td class="notes-col">Best disguised hand in poker. Bet for value immediately. Rare to be dominated.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~95%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:95%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">1.3%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:6%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">9</span></td>
+          <td>
+            <div class="hand-name">Middle Set</div>
+            <div class="hand-example">88 on A 8 3</div>
+          </td>
+          <td class="notes-col">Very strong but villain AX has you drawing thin when A is in front. Still bet hard.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~92%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:92%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">1.3%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:6%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">10</span></td>
+          <td>
+            <div class="hand-name">Bottom Set</div>
+            <div class="hand-example">33 on A K 3</div>
+          </td>
+          <td class="notes-col">Strong but vulnerable on connected/high boards. Villain AK has top two over your set.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~87%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:87%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">1.3%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:6%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">11</span></td>
+          <td>
+            <div class="hand-name">Nut Straight</div>
+            <div class="hand-example">AT on K Q J</div>
+          </td>
+          <td class="notes-col">Made the best possible straight. Must check for flush possibility on wet boards.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-monster">~90%</span>
+              <div class="bar-track"><div class="bar-fill bar-monster" style="width:90%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">0.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">12</span></td>
+          <td>
+            <div class="hand-name">Non-Nut Straight</div>
+            <div class="hand-example">45 on 6 7 8</div>
+          </td>
+          <td class="notes-col">Vulnerable. Villain can have 9T (higher straight). Board can counterfeit.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~80%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:80%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">0.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIER 2: STRONG -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-strong">Tier 2</div>
+      <div class="section-title">Strong Made Hands</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">13</span></td>
+          <td>
+            <div class="hand-name">Top Two Pair</div>
+            <div class="hand-example">KQ on K Q 5</div>
+          </td>
+          <td class="notes-col">Very strong. Only sets and straights have you beat on the flop.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~84%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:84%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:9%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">14</span></td>
+          <td>
+            <div class="hand-name">Top and Bottom Two Pair</div>
+            <div class="hand-example">K5 on K Q 5</div>
+          </td>
+          <td class="notes-col">Decent but boards that give you top+bottom often give villain better two pair or set.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~78%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:78%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:9%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">15</span></td>
+          <td>
+            <div class="hand-name">Bottom Two Pair</div>
+            <div class="hand-example">Q5 on K Q 5</div>
+          </td>
+          <td class="notes-col">Fragile. KQ or K5 or sets dominate. Wet boards make this dangerous to stack off.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~72%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:72%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:9%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">16</span></td>
+          <td>
+            <div class="hand-name">Trips — Top Pair Board + Your Pair (Set-like)</div>
+            <div class="hand-example">A7 on A A 4</div>
+          </td>
+          <td class="notes-col">Paired board trips. Strong but kicker matters HU. Villain AK kills you.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~80%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:80%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">1.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:7%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">17</span></td>
+          <td>
+            <div class="hand-name">Overpair (AA–QQ)</div>
+            <div class="hand-example">QQ on J 8 2 rainbow</div>
+          </td>
+          <td class="notes-col">HU this is a massive hand. Villain rarely has a set or two pair. Bet 3 streets.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~78%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:78%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">3.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:15%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">18</span></td>
+          <td>
+            <div class="hand-name">Top Pair Top Kicker (TPTK)</div>
+            <div class="hand-example">AK on A 7 2</div>
+          </td>
+          <td class="notes-col">Classic HU powerhouse. Beats all AX except AA. Go for 3 streets of value on dry boards.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~74%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:74%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">19</span></td>
+          <td>
+            <div class="hand-name">Top Pair Good Kicker</div>
+            <div class="hand-example">AQ on A 7 2</div>
+          </td>
+          <td class="notes-col">Strong. Beats all Ax except AK and AA. Still 2-3 streets of value HU.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~71%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:71%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIER 3: MEDIUM -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-medium">Tier 3</div>
+      <div class="section-title">Medium Strength / Vulnerable</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">20</span></td>
+          <td>
+            <div class="hand-name">Top Pair Medium Kicker</div>
+            <div class="hand-example">AT on A 7 2</div>
+          </td>
+          <td class="notes-col">Decent but gets dominated by AJ, AQ, AK. 1-2 streets value. Tread carefully vs aggression.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">~67%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:67%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">21</span></td>
+          <td>
+            <div class="hand-name">Top Pair Weak Kicker</div>
+            <div class="hand-example">A4 on A 7 2</div>
+          </td>
+          <td class="notes-col">Thin value. Loses to any better Ax. HU vs random range still +EV to bet once.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">~62%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:62%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">22</span></td>
+          <td>
+            <div class="hand-name">Overpair (JJ–TT) — Mid Overpair</div>
+            <div class="hand-example">TT on 9 5 2 rainbow</div>
+          </td>
+          <td class="notes-col">Solid HU but one broadway card on turn can slow you down. Protect equity now.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">~72%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:72%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:12%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">23</span></td>
+          <td>
+            <div class="hand-name">Middle Pair + No Draw</div>
+            <div class="hand-example">KQ on A K 5</div>
+          </td>
+          <td class="notes-col">Decent HU. Bet for value vs floats and air. Folds to heavy aggression.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">~55%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:55%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">5.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:23%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">24</span></td>
+          <td>
+            <div class="hand-name">Trips — Weak Kicker (Board-Paired)</div>
+            <div class="hand-example">A2 on A A 8</div>
+          </td>
+          <td class="notes-col">You lose to AK, AQ, AJ, AT, A9, A8, A7, A6, A5, A4, A3 kicker battles. Play small pots.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">~65%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:65%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:2%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">25</span></td>
+          <td>
+            <div class="hand-name">Middle Pair + Flush Draw</div>
+            <div class="hand-example">K<span class="r">♥</span>Q<span class="r">♥</span> on A<span class="r">♥</span> K♠ <span class="r">5♥</span></div>
+          </td>
+          <td class="notes-col">Pair + 9 outs flush. Massive equity. Semi-bluff or call down comfortably.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~65%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:65%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">1.2%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:5%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">26</span></td>
+          <td>
+            <div class="hand-name">Middle Pair + Open Ended Straight Draw</div>
+            <div class="hand-example">89 on 7 8 K</div>
+          </td>
+          <td class="notes-col">14 outs total (8 straight + 6 pair improve). Often near coin flip with top pair.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~62%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:62%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">1.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">27</span></td>
+          <td>
+            <div class="hand-name">Top Pair Weak Kicker + Flush Draw</div>
+            <div class="hand-example">A<span class="r">♥</span>4<span class="r">♥</span> on A♠ <span class="r">8♥ 3♥</span></div>
+          </td>
+          <td class="notes-col">Combined ~20 outs worth of equity. Very strong combo. Can stack off.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~76%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:76%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">0.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:3%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIER 4: DRAWING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-draw">Tier 4</div>
+      <div class="section-title">Drawing Hands (No Made Hand)</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">28</span></td>
+          <td>
+            <div class="hand-name">Flush Draw + Open Ended Straight Draw</div>
+            <div class="hand-example"><span class="r">8♥ 9♥</span> on <span class="r">7♥</span> 6♠ <span class="r">Q♥</span></div>
+          </td>
+          <td class="notes-col">Monster draw. ~15 outs. Often favorite over top pair. Bet or raise as semi-bluff.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">~58%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:58%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.4%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:2%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">29</span></td>
+          <td>
+            <div class="hand-name">Nut Flush Draw + Overcard(s)</div>
+            <div class="hand-example">A<span class="r">♥</span>K<span class="r">♥</span> on <span class="r">Q♥ 7♥</span> 2♣</div>
+          </td>
+          <td class="notes-col">~12 outs. Strong semi-bluff. Can stack off vs top pair. Nut draw matters.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~54%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:54%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.9%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">30</span></td>
+          <td>
+            <div class="hand-name">Nut Flush Draw (No Pair, No Straight Draw)</div>
+            <div class="hand-example">A<span class="r">♥</span>2<span class="r">♥</span> on <span class="r">K♥ 8♥</span> 3♣</div>
+          </td>
+          <td class="notes-col">9 outs ~35% equity by river. Good semi-bluff. But only draw, no backup.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~43%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:43%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:10%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">31</span></td>
+          <td>
+            <div class="hand-name">Weak Flush Draw + Overcard(s)</div>
+            <div class="hand-example">8<span class="r">♥</span>5<span class="r">♥</span> on <span class="r">K♥ 7♥</span> 2♣</div>
+          </td>
+          <td class="notes-col">Similar outs to nut flush draw but you can still lose to higher flush. Less clean.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~39%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:39%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">3.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:13%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">32</span></td>
+          <td>
+            <div class="hand-name">Open Ended Straight Draw + Two Overcards</div>
+            <div class="hand-example">AK on Q J 2</div>
+          </td>
+          <td class="notes-col">8 outs + 6 overcard outs = ~14 clean outs. Very close to 50/50 vs top pair HU.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~50%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:50%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">2.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:9%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">33</span></td>
+          <td>
+            <div class="hand-name">Open Ended Straight Draw (No Pair)</div>
+            <div class="hand-example">89 on 6 7 K</div>
+          </td>
+          <td class="notes-col">8 outs ~31% equity by river. Classic semi-bluff. Take free cards, bet when checked to.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~40%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:40%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">3.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:15%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">34</span></td>
+          <td>
+            <div class="hand-name">Double Gutshot Straight Draw</div>
+            <div class="hand-example">79 on 6 8 T (need 5 or J)</div>
+          </td>
+          <td class="notes-col">8 outs like OESD but harder for villain to read. Identical equity, better disguise.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~39%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:39%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">1.2%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:5%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">35</span></td>
+          <td>
+            <div class="hand-name">Gutshot + Flush Draw</div>
+            <div class="hand-example"><span class="r">9♥ J♥</span> on <span class="r">K♥</span> Q♠ <span class="r">8♥</span></div>
+          </td>
+          <td class="notes-col">~12 outs total. Strong semi-bluff hand. Raise or call vs one bet.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~50%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:50%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:3%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">36</span></td>
+          <td>
+            <div class="hand-name">Gutshot + Overcard(s)</div>
+            <div class="hand-example">AQ on K J 3</div>
+          </td>
+          <td class="notes-col">4 gutshot + 6 overcard outs = ~10 outs. Playable semi-bluff. Weak alone.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~42%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:42%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">2.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:9%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">37</span></td>
+          <td>
+            <div class="hand-name">Gutshot Only (No Pair, No Overcards)</div>
+            <div class="hand-example">89 on 6 T Q</div>
+          </td>
+          <td class="notes-col">4 outs ~17% equity by river. Usually fold to big bet. Cheap see turn only.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~30%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:30%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">3.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:13%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">38</span></td>
+          <td>
+            <div class="hand-name">Two Overcards Only (No Draw)</div>
+            <div class="hand-example">AK on Q 7 2 rainbow</div>
+          </td>
+          <td class="notes-col">~6 outs to top pair. ~27% equity. Can barrel as bluff HU. Don't call big raises.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~30%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:30%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">5.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:22%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">39</span></td>
+          <td>
+            <div class="hand-name">Backdoor Flush Draw + Overcard(s)</div>
+            <div class="hand-example">A<span class="r">♥</span>K♣ on Q<span class="r">♥</span> 8♠ 3<span class="r">♥</span></div>
+          </td>
+          <td class="notes-col">~3-4 equity% added from backdoor. Mostly just a blocker/bluffing hand. Weak alone.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-draw">~28%</span>
+              <div class="bar-track"><div class="bar-fill bar-draw" style="width:28%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIER 5: WEAK / MARGINAL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-weak">Tier 5</div>
+      <div class="section-title">Weak Made Hands / Marginal</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">40</span></td>
+          <td>
+            <div class="hand-name">Bottom Pair + Flush Draw</div>
+            <div class="hand-example">2<span class="r">♥</span>5<span class="r">♥</span> on A<span class="r">♥</span> K <span class="r">2♥</span></div>
+          </td>
+          <td class="notes-col">Weak pair + flush draw. Equity is decent from draw but pair has little value alone.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~52%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:52%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">1.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">41</span></td>
+          <td>
+            <div class="hand-name">Bottom Pair + Open Ended Straight Draw</div>
+            <div class="hand-example">67 on 5 6 9</div>
+          </td>
+          <td class="notes-col">The pair can help or hurt (might be drawing dead to trips). OESD is real equity.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~50%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:50%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.8%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:3%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">42</span></td>
+          <td>
+            <div class="hand-name">Underpair + Flush Draw</div>
+            <div class="hand-example">6<span class="r">♥</span>6♣ on A<span class="r">♥</span> K <span class="r">Q♥</span></div>
+          </td>
+          <td class="notes-col">Underpair has almost no standalone value vs AK. Flush draw is the real equity here.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~46%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:46%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">0.7%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:3%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">43</span></td>
+          <td>
+            <div class="hand-name">Middle Pair + Gutshot</div>
+            <div class="hand-example">QJ on A Q 8 (need T for Broadway)</div>
+          </td>
+          <td class="notes-col">Medium pair + 4 outs. OK call on flop. Not a raise. Hope to improve cheaply.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~53%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:53%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">1.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:4%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">44</span></td>
+          <td>
+            <div class="hand-name">Bottom Pair No Draw</div>
+            <div class="hand-example">52 on A K 2</div>
+          </td>
+          <td class="notes-col">Fold to aggression. Sometimes bet small HU as protection. Very vulnerable to overcards.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~40%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:40%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">5.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:23%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">45</span></td>
+          <td>
+            <div class="hand-name">Underpair No Draw</div>
+            <div class="hand-example">66 on K 9 7</div>
+          </td>
+          <td class="notes-col">Basically just praying for a 6. Fold to most aggression. Bet once vs passive villain.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~38%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:38%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">3.5%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:15%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">46</span></td>
+          <td>
+            <div class="hand-name">Ace High + Backdoor Draw(s)</div>
+            <div class="hand-example">A9 on K Q 7 (one suit matching)</div>
+          </td>
+          <td class="notes-col">Ace blocks AX. Can bluff. Has some showdown value HU. Don't call raises.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-weak">~36%</span>
+              <div class="bar-track"><div class="bar-fill bar-weak" style="width:36%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">4.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:17%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIER 6: TRASH -->
+  <div class="section">
+    <div class="section-header">
+      <div class="tier-label t-trash">Tier 6</div>
+      <div class="section-title">Air / Trash — Bluff or Fold</div>
+      <div class="divider"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Hand</th>
+          <th class="notes-th">Notes</th>
+          <th>Equity HU</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="rank-num">47</span></td>
+          <td>
+            <div class="hand-name">Ace High Only — No Draw</div>
+            <div class="hand-example">A4 on K Q 7 rainbow</div>
+          </td>
+          <td class="notes-col">HU ace high has real showdown value. Can bet once. Ace blocker makes bluffs good.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-trash">~32%</span>
+              <div class="bar-track"><div class="bar-fill bar-trash" style="width:32%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">8.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:35%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">48</span></td>
+          <td>
+            <div class="hand-name">King High — No Draw</div>
+            <div class="hand-example">K9 on A Q 5 rainbow</div>
+          </td>
+          <td class="notes-col">Almost no showdown value. Fold or bluff once on dry boards. Give up quickly.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-trash">~25%</span>
+              <div class="bar-track"><div class="bar-fill bar-trash" style="width:25%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-medium">7.0%</span>
+              <div class="bar-track"><div class="bar-fill bar-medium" style="width:30%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">49</span></td>
+          <td>
+            <div class="hand-name">Complete Air — No Pair, No Draw, No High Card Value</div>
+            <div class="hand-example">72 on A K Q</div>
+          </td>
+          <td class="notes-col">Pure bluff territory. C-bet once on the right board or just fold preflop. No equity path.</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-trash">~15%</span>
+              <div class="bar-track"><div class="bar-fill bar-trash" style="width:15%"></div></div>
+            </div>
+          </td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span class="pct-val pct-strong">10%+</span>
+              <div class="bar-track"><div class="bar-fill bar-strong" style="width:45%"></div></div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTNOTES -->
+  <div class="footnote-section">
+    <h2>Methodology & Context</h2>
+    <div class="note-grid">
+      <div class="note-card">
+        <h3>Equity Source</h3>
+        <p>Equity figures are approximate HU (heads up) equity vs a random opponent hand, computed across all runouts from the flop. Real equity shifts substantially based on board texture, villain's range, and position. These are ballpark figures for intuition-building.</p>
+      </div>
+      <div class="note-card">
+        <h3>Frequency Notes</h3>
+        <p>Frequency = rough % of flop situations where you find yourself in this spot given your 2 hole cards. Premium made hands are rare (&lt;1%). Top pair variants and draws are common (3–8%). Trash/air is the single most common category (~30%+ combined).</p>
+      </div>
+      <div class="note-card">
+        <h3>HU vs Full Ring</h3>
+        <p>Heads up, ranges are much wider. Top pair weak kicker is genuinely strong HU. Ace high has showdown value. Underpairs are more playable. These equity numbers reflect HU specifically — in 6-max or full ring, downgrade weak made hands by 1 tier.</p>
+      </div>
+      <div class="note-card">
+        <h3>Board Texture Modifier</h3>
+        <p>Dry boards (A 7 2 rainbow) inflate equity of made hands. Wet boards (J T 9 two-tone) deflate it. A set on a dry board has ~95% equity. That same set on a straight-flush board might be ~78%. Always adjust.</p>
+      </div>
+      <div class="note-card">
+        <h3>Combo Draws Are Underrated</h3>
+        <p>Flush draw + OESD, pair + flush draw, two overcards + OESD — these combo draws often exceed 50% equity vs top pair. They are played as semi-bluffs but are mathematically favorites. Don't play them weakly.</p>
+      </div>
+      <div class="note-card">
+        <h3>The Real Game</h3>
+        <p>Postflop isn't just "what do I have." It's range advantage + position + board texture. A player who c-bets every board and never folds is exploitable — recognize when the board favors your range, not just your specific hand.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

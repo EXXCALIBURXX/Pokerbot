@@ -248,6 +248,7 @@ class BotProcess:
             print(self.name, 'run command misformatted')
         except OSError as e:
             print(self.name, ' timed out or failed to connect.')
+            print('OSError details:', e)
             self.bytes_queue.put(traceback.format_exc().encode())
         except socket.timeout:
             print('Timed out waiting for', self.name, 'to connect')
