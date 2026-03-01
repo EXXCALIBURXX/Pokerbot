@@ -1,0 +1,151 @@
+
+════════════════════════════════════════════════════════════════════════════════
+  MATCH ANALYSIS : 6_7  vs  bot_v7   (1000 hands)
+════════════════════════════════════════════════════════════════════════════════
+
+  ─── SUMMARY ─────────────────────────────────────────────────────────────────
+  Final PnL        : -8,354 chips
+  W / L / T        : 488 / 495 / 17   (48.8% hands won)
+  Avg / Median / σ : -8.4 / +0.0 / 839.1 chips/hand
+
+  ─── PAYOFF DISTRIBUTION ─────────────────────────────────────────────────────
+  Big wins   (>500)               18  █·····························  total=+70,135
+  Med wins   (100-500)            17  █·····························  total=+2,873
+  Small wins (0-100)             453  █████████████████████████████·  total=+13,076
+  Small loss (0 to -100)         462  ██████████████████████████████  total=-11,999
+  Med loss (-100 to -500)         33  ██····························  total=-6,501
+  Big loss  (<-500)               17  █·····························  total=-75,938
+
+  ─── WHERE HANDS END  &  P&L BY STREET ───────────────────────────────────────
+  preflop     ends= 454 ( 45.4%)  avg=   +4.1  total=+1,870
+  flop        ends=  87 (  8.7%)  avg=   -4.5  total=-388
+  turn        ends= 120 ( 12.0%)  avg=   -4.5  total=-535
+  river       ends= 339 ( 33.9%)  avg=  -27.4  total=-9,301
+
+  ─── #9  STREET-CONDITIONAL WIN RATES ────────────────────────────────────────
+  Street       Reached     Won    Win%   Opp Win%
+  flop             546     255   46.7%      50.2%
+  turn             459     209   45.5%      50.8%
+  river            339     150   44.2%      50.7%
+
+  ─── #4  VPIP / PFR  (preflop voluntariness) ─────────────────────────────────
+  Metric                      Ours       Opp  Note
+  VPIP                       37.4%     57.7%  (voluntarily entered pot)
+  PFR                        32.0%      8.2%  (raised preflop)
+  Limp rate (VPIP-PFR)        5.4%     49.5%  (called without raising)
+
+  ─── #6  AGGRESSION FACTOR PER STREET  (AF = bets+raises / calls) ────────────
+  Street       Raises    Calls   Checks    Folds      AF   Opp AF
+  preflop         322       58      367      221    5.55     0.16
+  flop             80       36      441       41    2.22     2.55
+  turn             95       30      343       61    3.17     3.39
+  river            54       23      277       31    2.35     4.07
+
+  ─── #5  FOLD-TO-BET RATES PER STREET  (critical exploit metric) ─────────────
+  Street       Faced   Folded    Fold%   Opp Fold%  Verdict
+  flop            79       41    51.9%       57.5%  marginal
+  turn            95       61    64.2%       62.1%  ⚠ high
+  river           57       31    54.4%       59.3%  marginal
+
+  ─── #7  CONTINUATION BET (C-BET) ────────────────────────────────────────────
+  Metric                                   Ours       Opp
+  C-bet opportunities                        10         5
+  C-bets made                                 6         3
+  C-bet % (of opps)                       60.0%     60.0%
+  C-bet success (fold %)                  66.7%     66.7%
+
+  ─── #8  AUCTION ANALYSIS ────────────────────────────────────────────────────
+  Auctions (flop hands)  : 546  won=354 (64.8%)  lost=192  tied=0
+  Our avg bid            : 15.5 chips  (21.2% of pot)
+  Opp avg bid            : 16.0 chips
+  Our bid / opp bid avg  : 1.088  (1.0 = matched; <0.5 = severe underbid)
+  Total auction cost paid: +4,304 chips (Vickrey: winner pays loser's bid)
+  Avg PnL when WON  auction: -31.8
+  Avg PnL when LOST auction: +5.3
+
+  ─── #10  POST-AUCTION BEHAVIOUR (opp betting frequency on flop) ─────────────
+  Opp bet flop after OPP won auction  :  24.0%  (n=192)
+  Opp bet flop after WE  won auction  :   9.3%  (n=354)
+  Avg PnL when we won auction         : -31.8
+  Avg PnL when we lost auction        : +5.3
+
+  ─── #11  BET SIZING DISTRIBUTION (% of pot) ─────────────────────────────────
+  Street     Ours: mean    median    Opp: mean    median  count(us/opp)
+  flop            70.7%     60.0%        74.0%     55.6%  80/79
+  turn            90.6%     72.3%       107.2%     74.1%  95/95
+  river          106.9%     85.2%       144.1%     91.1%  54/57
+
+  ─── FOLD ANALYSIS ───────────────────────────────────────────────────────────
+  We won by opp fold  :  370   total PnL: +10,588
+  We folded           :  354   total PnL: -10,960
+
+  ─── SHOWDOWN ANALYSIS ───────────────────────────────────────────────────────
+  Showdowns          : 276
+  Showdown win rate  : 42.8%  (opp: 51.1%)
+  Showdown PnL       : -7,982  (avg -28.9)
+
+  ─── POSITION ANALYSIS ───────────────────────────────────────────────────────
+  SB hands :  500   avg +0.2   total +105
+  BB hands :  500   avg -16.9   total -8,459
+
+  ─── ACTION FREQUENCY ────────────────────────────────────────────────────────
+  Action      Ours n    Ours %     Opp n     Opp %
+  Raises         551     22.2%       314     14.2%
+  Calls          147      5.9%       579     26.2%
+  Checks        1428     57.6%       949     42.9%
+  Folds          354     14.3%       370     16.7%
+
+  ─── #12  OPPONENT PROFILE SUMMARY ───────────────────────────────────────────
+  Opp final PnL    : +8,354
+  Opp VPIP / PFR   : 57.7% / 8.2%
+  Opp fold-to-bet flop  : 57.5%  (n=80)
+  Opp fold-to-bet turn  : 62.1%  (n=95)
+  Opp fold-to-bet river : 59.3%  (n=54)
+  Opp avg bid / pot: 21.6%
+
+  ─── TOP 10 BIGGEST LOSSES ───────────────────────────────────────────────────
+  R#  40 [BB] payoff= -5000  hole=[Ks 2s] vs [6s Jc]  board=[Td 2d 5h Js 5s]  end=showdown  AUC:WON(our=11 paid=8) rev=6s
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks → 6_7:bets 37 → BOT:raises to 4972 → 6_7:calls
+  R#  74 [BB] payoff= -5000  hole=[9d 5h] vs [Qs 4h]  board=[6c Qh 5d 6d Kc]  end=showdown  AUC:WON(our=11 paid=11) rev=4h
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:bets 43 → BOT:raises to 4969 → 6_7:calls → 6_7:checks → BOT:checks
+  R# 161 [SB] payoff= -5000  hole=[5c Tc] vs [Ks Ad]  board=[3c Td Jh Qs 5s]  end=showdown  AUC:WON(our=40 paid=25) rev=Ks
+         actions: 6_7:raises to 72 → BOT:calls → BOT:checks → 6_7:checks → BOT:bets 122 → 6_7:calls → BOT:bets 351 → 6_7:raises to 4781 → BOT:calls
+  R# 624 [BB] payoff= -5000  hole=[2c 3c] vs [8h 4d]  board=[4s 4h 3s 3d Js]  end=showdown  AUC:WON(our=12 paid=8) rev=8h
+         actions: BOT:calls → 6_7:checks → 6_7:bets 20 → BOT:raises to 4972 → 6_7:calls → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks
+  R# 744 [BB] payoff= -5000  hole=[Qh 5h] vs [7d Qd]  board=[Qc 3h As 2s 9s]  end=showdown  AUC:WON(our=11 paid=11) rev=7d
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:bets 50 → BOT:calls → 6_7:bets 151 → BOT:raises to 4919 → 6_7:calls
+  R# 809 [SB] payoff= -5000  hole=[9c 9h] vs [Kd Kc]  board=[7h 6d As 3d 4h]  end=showdown  AUC:LOST(our=0 vs opp=0)
+         actions: 6_7:raises to 72 → BOT:raises to 202 → 6_7:raises to 602 → BOT:raises to 1768 → 6_7:raises to 5000 → BOT:calls → BOT:checks → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks → 6_7:checks
+  R# 853 [SB] payoff= -5000  hole=[Js Jh] vs [Kh As]  board=[3c 5s Qd Kd Qh]  end=showdown  AUC:WON(our=40 paid=28) rev=As
+         actions: 6_7:raises to 72 → BOT:calls → BOT:checks → 6_7:checks → BOT:bets 105 → 6_7:calls → BOT:bets 324 → 6_7:raises to 4795 → BOT:calls
+  R# 948 [BB] payoff= -5000  hole=[7h Ts] vs [Kd 7s]  board=[Ad 7d 7c Jh Ks]  end=showdown  AUC:WON(our=8 paid=8) rev=7s
+         actions: BOT:calls → 6_7:checks → 6_7:bets 26 → BOT:raises to 4972 → 6_7:calls → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks
+  R# 136 [BB] payoff= -4992  hole=[9h Qc] vs [6h Jc]  board=[Jh 9d Qh Jd Kh]  end=showdown  AUC:LOST(our=8 vs opp=11)
+         actions: BOT:calls → 6_7:checks → 6_7:bets 25 → BOT:calls → 6_7:bets 70 → BOT:raises to 4947 → 6_7:calls → 6_7:checks → BOT:checks
+  R# 764 [BB] payoff= -4992  hole=[Ad 6d] vs [2h 2s]  board=[9d 2d Jd 4s 4c]  end=showdown  AUC:LOST(our=8 vs opp=12)
+         actions: BOT:calls → 6_7:checks → 6_7:bets 26 → BOT:calls → 6_7:bets 75 → BOT:calls → 6_7:bets 212 → BOT:raises to 4871 → 6_7:calls
+
+  ─── TOP 10 BIGGEST WINS ─────────────────────────────────────────────────────
+  R# 968 [BB] payoff= +5000  hole=[2s 6d] vs [Ks 4c]  board=[6c 4s Td 6h 8s]  end=showdown  AUC:WON(our=11 paid=11) rev=Ks
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:bets 52 → BOT:raises to 4969 → 6_7:calls → 6_7:checks → BOT:checks
+  R# 902 [BB] payoff= +5000  hole=[8s Jh] vs [5c 7c]  board=[6c Jc 8c Qs 8d]  end=showdown  AUC:WON(our=8 paid=8) rev=7c
+         actions: BOT:calls → 6_7:checks → 6_7:bets 26 → BOT:raises to 4972 → 6_7:calls → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks
+  R# 748 [BB] payoff= +5000  hole=[Td 2d] vs [5c Jh]  board=[5s Th 3h 2c 3s]  end=showdown  AUC:WON(our=11 paid=11) rev=Jh
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:bets 40 → BOT:calls → 6_7:bets 98 → BOT:raises to 4929 → 6_7:calls
+  R# 509 [SB] payoff= +5000  hole=[Ah Ad] vs [8c 9d]  board=[4d 9c 4s 3h Tc]  end=showdown  AUC:LOST(our=46 vs opp=46)
+         actions: 6_7:raises to 72 → BOT:calls → BOT:bets 102 → 6_7:calls → BOT:bets 307 → 6_7:raises to 4780 → BOT:calls → BOT:checks → 6_7:checks
+  R# 470 [BB] payoff= +5000  hole=[5d 7h] vs [8d 9d]  board=[5h 8c 5c Js 4h]  end=showdown  AUC:LOST(our=8 vs opp=12)
+         actions: BOT:calls → 6_7:checks → 6_7:bets 25 → BOT:calls → 6_7:bets 70 → BOT:raises to 4947 → 6_7:calls → 6_7:checks → BOT:checks
+  R# 374 [BB] payoff= +5000  hole=[4c 3h] vs [7c Qc]  board=[Qd 6h Kd 3s 3c]  end=showdown  AUC:LOST(our=8 vs opp=11)
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:checks → BOT:bets 39 → 6_7:calls → 6_7:bets 107 → BOT:raises to 4933 → 6_7:calls
+  R# 314 [BB] payoff= +5000  hole=[Qs As] vs [Ah Jd]  board=[2s Qh Jh 7d 4h]  end=showdown  AUC:LOST(our=36 vs opp=40)
+         actions: BOT:raises to 72 → 6_7:calls → 6_7:bets 80 → BOT:calls → 6_7:bets 208 → BOT:raises to 4812 → 6_7:calls → 6_7:checks → BOT:checks
+  R# 115 [SB] payoff= +5000  hole=[Qc 2c] vs [Ks Ts]  board=[Tc Jh 9h Kh 9d]  end=showdown  AUC:LOST(our=36 vs opp=40)
+         actions: 6_7:raises to 72 → BOT:calls → BOT:checks → 6_7:checks → BOT:bets 136 → 6_7:raises to 4892 → BOT:calls → BOT:checks → 6_7:checks
+  R#  97 [SB] payoff= +5000  hole=[Jh 9d] vs [7s Qs]  board=[8c 7d Tc 7c 2c]  end=showdown  AUC:LOST(our=17 vs opp=40)
+         actions: 6_7:raises to 72 → BOT:calls → BOT:checks → 6_7:bets 85 → BOT:calls → BOT:bets 206 → 6_7:raises to 4826 → BOT:calls → BOT:checks → 6_7:checks
+  R#  22 [BB] payoff= +5000  hole=[7h 4h] vs [5d 7s]  board=[Jc 6h 8d 8s 5h]  end=showdown  AUC:LOST(our=8 vs opp=10)
+         actions: BOT:calls → 6_7:checks → 6_7:checks → BOT:checks → 6_7:checks → BOT:checks → 6_7:bets 40 → BOT:raises to 4972 → 6_7:calls
+
+════════════════════════════════════════════════════════════════════════════════
+

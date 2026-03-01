@@ -12,3 +12,7 @@ venv/
 logs/
 *.glog
 *.plog
+
+# Scraper
+._scraper_profile/
+real_bot_logs/
